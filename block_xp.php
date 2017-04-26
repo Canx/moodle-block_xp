@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot . "/blocks/xp/db/upgradelib.php");
+
 /**
  * Block XP class.
  *
@@ -88,6 +90,9 @@ class block_xp extends block_base {
         // Enable the capture of events for that course.
         $manager = block_xp_manager::get($this->page->course->id);
         $manager->update_config((object) array('enabled' => true));
+
+        upgradelib::add_static_filters_to_course($manager->get_courseid());
+
         return true;
     }
 

@@ -26,15 +26,22 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 require_once($CFG->dirroot . '/blocks/xp/tests/fixtures/events.php');
+require_once($CFG->dirroot . "/blocks/xp/db/upgradelib.php");
 
 /**
  * Filters testcase.
  *
  * @package    block_xp
+ * @group      block_xp
  * @copyright  2014 Frédéric Massart - FMCorz.net
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class block_xp_filters_testcase extends advanced_testcase {
+
+    protected function setUp() {
+        $this->resetAfterTest(true);
+        block_xp_manager::purge_static_caches();
+    }
 
     public function test_filter_match() {
         $rule = new block_xp_rule_property(block_xp_rule_base::EQ, 'c', 'crud');
@@ -66,6 +73,7 @@ class block_xp_filters_testcase extends advanced_testcase {
         $this->resetAfterTest(true);
 
         $course = $this->getDataGenerator()->create_course();
+        block_xp_upgradelib::add_static_filters_to_course($course->id);
         $manager = block_xp_manager::get($course->id);
         $fm = $manager->get_filter_manager();
 
@@ -84,6 +92,7 @@ class block_xp_filters_testcase extends advanced_testcase {
         $this->resetAfterTest(true);
 
         $course = $this->getDataGenerator()->create_course();
+        block_xp_upgradelib::add_static_filters_to_course($course->id);
         $manager = block_xp_manager::get($course->id);
         $fm = $manager->get_filter_manager();
 

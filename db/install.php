@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,18 +16,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version file.
+ * Block XP database install
  *
  * @package    block_xp
  * @copyright  2014 Frédéric Massart
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version    = 2017040902;
-$plugin->requires   = 2014041500;
-$plugin->component  = 'block_xp';
-$plugin->maturity   = MATURITY_STABLE;
-$plugin->release    = '2.1.2';
-$plugin->cron       = 86400;
+require_once("upgradelib.php");
+
+function xmldb_block_xp_install() {
+
+    // Populate block_xp_default_filters table.
+    return upgradelib::save_default_filters();
+}

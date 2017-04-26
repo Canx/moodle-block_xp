@@ -311,6 +311,24 @@ function xmldb_block_xp_upgrade($oldversion) {
         upgrade_block_savepoint(true, 2016022403, 'xp');
     }
 
+    if ($oldversion < 2017040901) {
+
+        // Add static filters to courses.
+        $result = upgradelib::add_static_filters_to_courses();
+
+        // Xp savepoint reached.
+        upgrade_block_savepoint($result, 2017040901, 'xp');
+    }
+
+    // Maybe we still don't need this now...
+    //if ($oldversion < 2017040902) {
+
+    //    // Save default filters in database.
+    //    $result = upgradelib::save_default_filters();
+
+    //    // Xp savepoint reached.
+    //    upgrade_block_savepoint($result, 2017040902, 'xp');
+    //}
     return true;
 
 }

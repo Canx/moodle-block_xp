@@ -52,7 +52,6 @@ class block_xp_filter_manager {
     /**
      * Get all the filter objects.
      *
-     * Positive indexes are user filters, negatives are static ones.
      * Do not reorder this array, it is ordered by priority.
      *
      * @return array of fitlers.
@@ -62,10 +61,6 @@ class block_xp_filter_manager {
         $key = 'filters_' . $this->manager->get_courseid();
         if (false === ($filters = $cache->get($key))) {
             $filters = $this->get_user_filters();
-            $i = -1;
-            foreach (self::get_static_filters() as $filter) {
-                $filters[$i--] = $filter;
-            }
             $cache->set($key, $filters);
         }
         return $filters;
@@ -109,7 +104,6 @@ class block_xp_filter_manager {
         $ruleset = new block_xp_ruleset(array($bcmv, $dsc, $sc, $as, $au), block_xp_ruleset::ANY);
         $data = array('rule' => $ruleset, 'points' => 0, 'editable' => false);
         $list[] = block_xp_filter::load_from_data($data);
-
         $data = array('rule' => $c, 'points' => 45, 'editable' => false);
         $list[] = block_xp_filter::load_from_data($data);
 
