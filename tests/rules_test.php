@@ -28,7 +28,6 @@ defined('MOODLE_INTERNAL') || die();
  * Rules testcase.
  *
  * @package    block_xp
- * @group      block_xp
  * @copyright  2014 Frédéric Massart - FMCorz.net
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

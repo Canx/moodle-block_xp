@@ -18,7 +18,6 @@
  * Test upgradelib methods.
  *
  * @package    block_xp
- * @group      block_xp
  * @copyright  2017 Ruben Cancho
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
