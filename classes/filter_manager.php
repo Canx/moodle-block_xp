@@ -104,6 +104,7 @@ class block_xp_filter_manager {
         $ruleset = new block_xp_ruleset(array($bcmv, $dsc, $sc, $as, $au), block_xp_ruleset::ANY);
         $data = array('rule' => $ruleset, 'points' => 0, 'editable' => false);
         $list[] = block_xp_filter::load_from_data($data);
+
         $data = array('rule' => $c, 'points' => 45, 'editable' => false);
         $list[] = block_xp_filter::load_from_data($data);
 
