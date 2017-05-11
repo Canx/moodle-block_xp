@@ -116,6 +116,9 @@ class block_xp_filters_testcase extends advanced_testcase {
         $data = array('courseid' => $course->id, 'sortorder' => 0, 'points' => 130, 'rule' => $rule);
         block_xp_filter::load_from_data($data)->save();
 
+        //print_object($fm->get_all_filters());
+        //exit();
+
         // We can override default filters.
         $e = \block_xp\event\something_happened::mock(array('crud' => 'c', 'objectid' => 2));
         $this->assertSame(100, $fm->get_points_for_event($e));
@@ -134,7 +137,7 @@ class block_xp_filters_testcase extends advanced_testcase {
 
         // This filter will catch everything before the default rules.
         $rule = new block_xp_rule_property(block_xp_rule_base::CT, 'something', 'eventname');
-        $data = array('courseid' => $course->id, 'sortorder' => 3, 'points' => 110, 'rule' => $rule);
+        $data = array('courseid' => $course->id, 'sortorder' => 2, 'points' => 110, 'rule' => $rule);
         block_xp_filter::load_from_data($data)->save();
         $fm->invalidate_filters_cache();
 
