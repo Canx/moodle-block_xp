@@ -45,7 +45,7 @@ class block_xp_upgradelib {
        $records = $DB->get_records('block_xp_config');
        return self::execute_as_transaction(function() use ($records) {
             foreach($records as $record) {
-                self::save_filters(self::get_static_filters(), $record->courseid);
+                self::save_filters(self::get_static_filters(), $record->courseid, true);
            }
        });
 
@@ -53,14 +53,15 @@ class block_xp_upgradelib {
 
     /**
      *
-     * Append default filters to a course
+     * Append default filters to a course, by default not adding them if already has filters
      *
      * @param int $courseid
+     * @paran boolean ·$force force to add filters even if course already has filters.
      * @return boolean true if operation succeeded
      */
-    public static function add_static_filters_to_course($courseid) {
-        return self::execute_as_transaction(function() use ($courseid) {
-            self::save_filters(self::get_static_filters(), $courseid);
+    public static function add_static_filters_to_course($courseid, $force = false) {
+        return self::execute_as_transaction(function() use ($courseid, $force) {
+            self::save_filters(self::get_static_filters(), $courseid, $force);
         });
     }
 
@@ -99,18 +100,62 @@ class block_xp_upgradelib {
 
     }
 
-    protected static function save_filters($rules, $courseid) {
-        global $DB;
+    /**
+     * Saves rules to course if no course rules exists.
+     *
+     * @param hash $rules
+     * @param int $courseid
+     * @param string $force force to save rules even if course rules exists.
+     */
+    protected static function save_filters($rules, $courseid, $force_save = false) {
+        // check if we should add the rules
+        if (!$force_save && self::course_has_filters($courseid)) return false;
 
-        // hack to append filters if they already exist.
-        $sortorder = 100;
+        $sortorder = self::last_sortorder($courseid) + 1;
 
         foreach($rules as $rule) {
-            $rule['courseid'] = $courseid;
-            $rule['sortorder'] = $sortorder;
-            $DB->insert_record("block_xp_filters", $rule);
+            self::save_filter($rule, $sortorder, $courseid);
             $sortorder += 1;
         }
+
+        return true;
+    }
+
+    protected static function last_sortorder($courseid) {
+        global $DB;
+
+        $sortorder = $DB->get_field_select("block_xp_filters", "MAX(sortorder)",
+                "courseid = " . $courseid);
+
+        return is_null($sortorder) ? 0 : $sortorder;
+    }
+
+    /**
+     * Check if the course has filters
+     *
+     * @param int $courseid
+     * @return boolean
+     */
+    protected static function course_has_filters($courseid) {
+        global $DB;
+
+        return ($DB->count_records("block_xp_filters", ['courseid' => $courseid]) > 0);
+    }
+
+    /**
+     * Save a filter to a course. A filter is a rule + sort order.
+     *
+     * @param hash $rule
+     * @param int $sortorder
+     * @param int $courseid
+     */
+    protected static function save_filter($rule, $sortorder, $courseid) {
+        global $DB;
+
+        $filter = $rule;
+        $filter['courseid'] = $courseid;
+        $filter['sortorder'] = $sortorder;
+        $DB->insert_record("block_xp_filters", $filter);
     }
 
     protected static function get_static_filters() {
