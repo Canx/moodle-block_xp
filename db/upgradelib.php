@@ -31,7 +31,6 @@ defined('MOODLE_INTERNAL') || die();
 * @copyright  2017 Ruben Cancho
 * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 */
-
 class block_xp_upgradelib {
 
     /**
@@ -62,17 +61,6 @@ class block_xp_upgradelib {
     public static function add_static_filters_to_course($courseid, $force = false) {
         return self::execute_as_transaction(function() use ($courseid, $force) {
             self::save_filters(self::get_static_filters(), $courseid, $force);
-        });
-    }
-
-    /**
-     * Save default filters in block_xp_filter table as courseid = 0
-     *
-     * @return boolean true if operation succeeded
-     */
-    public static function save_default_filters() {
-        return self::execute_as_transaction(function() {
-            self::save_filters(self::get_static_filters(), 0);
         });
     }
 
