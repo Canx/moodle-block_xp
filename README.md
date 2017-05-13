@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Canx/moodle-block_xp.svg?branch=issue-26-steps)](https://travis-ci.org/Canx/moodle-block_xp)
+
 Level up! (block_xp)
 ====================
 
