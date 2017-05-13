@@ -14,6 +14,11 @@ env:
   - MOODLE_BRANCH=MOODLE_27_STABLE DB=mysqli
   - MOODLE_BRANCH=MOODLE_32_STABLE DB=mysqli
 
+matrix:
+  exclude:
+    - php: 7.0
+      env: MOODLE_BRANCH=MOODLE_32_STABLE DB=mysqli
+
 before_install:
   - phpenv config-rm xdebug.ini
   - cd ../..
