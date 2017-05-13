@@ -92,7 +92,7 @@ class block_xp extends block_base {
         $manager->update_config((object) array('enabled' => true));
 
         // Only add static filters if it's a new block.
-        block_xp_upgradelib::add_static_filters_to_course($manager->get_courseid());
+        block_xp_static_filters::add_static_filters_to_course($manager->get_courseid());
 
         return true;
     }

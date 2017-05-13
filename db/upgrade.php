@@ -314,7 +314,7 @@ function xmldb_block_xp_upgrade($oldversion) {
     if ($oldversion < 2017040901) {
 
         // Add static filters to courses.
-        $result = block_xp_upgradelib::add_static_filters_to_courses(true);
+        $result = block_xp_static_filters::add_static_filters_to_courses(true);
 
         // Xp savepoint reached.
         upgrade_block_savepoint($result, 2017040901, 'xp');

@@ -26,7 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 require_once($CFG->dirroot . '/blocks/xp/tests/fixtures/events.php');
-require_once($CFG->dirroot . "/blocks/xp/db/upgradelib.php");
 
 /**
  * Manager testcase.
@@ -66,9 +65,9 @@ class block_xp_manager_testcase extends advanced_testcase {
         global $DB;
 
         $c1 = $this->getDataGenerator()->create_course();
-        block_xp_upgradelib::add_static_filters_to_course($c1->id);
+        block_xp_static_filters::add_static_filters_to_course($c1->id);
         $c2 = $this->getDataGenerator()->create_course();
-        block_xp_upgradelib::add_static_filters_to_course($c2->id);
+        block_xp_static_filters::add_static_filters_to_course($c2->id);
         $u1 = $this->getDataGenerator()->create_user();
         $u2 = $this->getDataGenerator()->create_user();
         $this->getDataGenerator()->enrol_user($u1->id, $c1->id);
@@ -111,9 +110,9 @@ class block_xp_manager_testcase extends advanced_testcase {
         global $DB;
 
         $c1 = $this->getDataGenerator()->create_course();
-        block_xp_upgradelib::add_static_filters_to_course($c1->id);
+        block_xp_static_filters::add_static_filters_to_course($c1->id);
         $c2 = $this->getDataGenerator()->create_course();
-        block_xp_upgradelib::add_static_filters_to_course($c2->id);
+        block_xp_static_filters::add_static_filters_to_course($c2->id);
         $u1 = $this->getDataGenerator()->create_user();
         $u2 = $this->getDataGenerator()->create_user();
         $g1 = $this->getDataGenerator()->create_group(array('courseid' => $c1->id));

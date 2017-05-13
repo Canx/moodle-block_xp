@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG, $DB;
 
-class block_xp_upgradelib_testcase extends advanced_testcase {
+class block_xp_static_filters_testcase extends advanced_testcase {
 
     protected function setUp() {
         $this->resetAfterTest(true);
@@ -56,7 +56,7 @@ class block_xp_upgradelib_testcase extends advanced_testcase {
         $this->assertSame(0, count($DB->get_records('block_xp_filters', array('courseid'=> $course1->id))));
         $this->assertSame(0, count($DB->get_records('block_xp_filters', array('courseid'=> $course2->id))));
 
-        block_xp_upgradelib::add_static_filters_to_courses();
+        block_xp_static_filters::add_static_filters_to_courses();
 
         // By default a new course should have 5 default rules.
         $this->assertSame(5, count($DB->get_records('block_xp_filters', array('courseid'=> $course1->id))));
@@ -78,12 +78,12 @@ class block_xp_upgradelib_testcase extends advanced_testcase {
         $manager1->update_config(array('enabled' => true));
 
         // Adding a block should add static filters.
-        block_xp_upgradelib::add_static_filters_to_course($course1->id);
+        block_xp_static_filters::add_static_filters_to_course($course1->id);
 
         $this->assertSame(5, count($DB->get_records('block_xp_filters', array('courseid'=> $course1->id))));
 
         // Readding a block should not add filters again.
-        block_xp_upgradelib::add_static_filters_to_course($course1->id);
+        block_xp_static_filters::add_static_filters_to_course($course1->id);
 
         $this->assertSame(5, count($DB->get_records('block_xp_filters', array('courseid'=> $course1->id))));
     }

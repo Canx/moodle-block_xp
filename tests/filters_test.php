@@ -26,7 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 require_once($CFG->dirroot . '/blocks/xp/tests/fixtures/events.php');
-require_once($CFG->dirroot . "/blocks/xp/db/upgradelib.php");
 
 /**
  * Filters testcase.
@@ -73,7 +72,7 @@ class block_xp_filters_testcase extends advanced_testcase {
         $this->resetAfterTest(true);
 
         $course = $this->getDataGenerator()->create_course();
-        block_xp_upgradelib::add_static_filters_to_course($course->id);
+        block_xp_static_filters::add_static_filters_to_course($course->id);
         $manager = block_xp_manager::get($course->id);
         $fm = $manager->get_filter_manager();
 
@@ -92,7 +91,7 @@ class block_xp_filters_testcase extends advanced_testcase {
         $this->resetAfterTest(true);
 
         $course = $this->getDataGenerator()->create_course();
-        block_xp_upgradelib::add_static_filters_to_course($course->id);
+        block_xp_static_filters::add_static_filters_to_course($course->id);
         $manager = block_xp_manager::get($course->id);
         $fm = $manager->get_filter_manager();
 
