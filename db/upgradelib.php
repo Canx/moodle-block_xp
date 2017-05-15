@@ -22,14 +22,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace block_xp_upgradelib {
-
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/blocks/xp/classes/static_filters.php');
 
 /**
- * static_filters_v1 used to upgrade to 2017040901
+ * block_xp_static_filters_v2017040901 class used only to upgrade.
  *
  * WARNING! We need to override this class if we make changes in block_static_filters!!!
 *
@@ -37,9 +35,6 @@ require_once($CFG->dirroot . '/blocks/xp/classes/static_filters.php');
 * @copyright  2017 Ruben Cancho
 * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 */
-    class static_filters_v1 extends block_xp_static_filters {
-
-    }
-
+class block_xp_static_filters_v2017040901 extends block_xp_static_filters {
 
 }
