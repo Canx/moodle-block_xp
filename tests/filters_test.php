@@ -114,9 +114,6 @@ class block_xp_filters_testcase extends advanced_testcase {
         $data = array('courseid' => $course->id, 'sortorder' => 0, 'points' => 130, 'rule' => $rule);
         block_xp_filter::load_from_data($data)->save();
 
-        //print_object($fm->get_all_filters());
-        //exit();
-
         // We can override default filters.
         $e = \block_xp\event\something_happened::mock(array('crud' => 'c', 'objectid' => 2));
         $this->assertSame(100, $fm->get_points_for_event($e));
