@@ -86,7 +86,7 @@ class block_xp_static_filters {
 
         $sortorder = static::max_sortorder($courseid) + 1;
 
-        foreach($rules as $rule) {
+        foreach ($rules as $rule) {
             static::save_filter($rule, $sortorder, $courseid);
             $sortorder += 1;
         }
