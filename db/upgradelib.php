@@ -30,11 +30,11 @@ require_once($CFG->dirroot . '/blocks/xp/classes/static_filters.php');
  * block_xp_static_filters_v2017040901 class used only to upgrade.
  *
  * WARNING! We need to override this class if we make changes in block_static_filters!!!
-*
-* @package    block_xp
-* @copyright  2017 Ruben Cancho
-* @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-*/
+ *
+ * @package    block_xp
+ * @copyright  2017 Ruben Cancho
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class block_xp_static_filters_v2017040901 extends block_xp_static_filters {
 
 }

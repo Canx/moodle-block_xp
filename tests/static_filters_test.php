@@ -33,15 +33,15 @@ class block_xp_static_filters_testcase extends advanced_testcase {
         block_xp_manager::purge_static_caches();
     }
 
-    function test_add_static_filters_to_courses() {
+    public function test_add_static_filters_to_courses() {
         global $DB;
 
-        // Generate course
+        // Generate course.
         $course1 = $this->getDataGenerator()->create_course();
         $course2 = $this->getDataGenerator()->create_course();
 
-        $this->assertSame(0, count($DB->get_records('block_xp_config', array('courseid'=> $course1->id))));
-        $this->assertSame(0, count($DB->get_records('block_xp_config', array('courseid'=> $course2->id))));
+        $this->assertSame(0, count($DB->get_records('block_xp_config', array('courseid' => $course1->id))));
+        $this->assertSame(0, count($DB->get_records('block_xp_config', array('courseid' => $course2->id))));
 
         $manager1 = block_xp_manager::get($course1->id);
         $manager1->update_config(array('enabled' => true));
@@ -49,30 +49,28 @@ class block_xp_static_filters_testcase extends advanced_testcase {
         $manager2 = block_xp_manager::get($course2->id);
         $manager2->update_config(array('enabled' => true));
 
-        // A config record should be now associated to a course
-        $this->assertSame(1, count($DB->get_records('block_xp_config', array('courseid'=> $course1->id))));
+        // A config record should be now associated to a course.
+        $this->assertSame(1, count($DB->get_records('block_xp_config', array('courseid' => $course1->id))));
 
-        // Courses should not have filters now
-        $this->assertSame(0, count($DB->get_records('block_xp_filters', array('courseid'=> $course1->id))));
-        $this->assertSame(0, count($DB->get_records('block_xp_filters', array('courseid'=> $course2->id))));
+        // Courses should not have filters now.
+        $this->assertSame(0, count($DB->get_records('block_xp_filters', array('courseid' => $course1->id))));
+        $this->assertSame(0, count($DB->get_records('block_xp_filters', array('courseid' => $course2->id))));
 
         block_xp_static_filters::add_static_filters_to_courses();
 
         // By default a new course should have 5 default rules.
-        $this->assertSame(5, count($DB->get_records('block_xp_filters', array('courseid'=> $course1->id))));
-        $this->assertSame(5, count($DB->get_records('block_xp_filters', array('courseid'=> $course2->id))));
-
-
+        $this->assertSame(5, count($DB->get_records('block_xp_filters', array('courseid' => $course1->id))));
+        $this->assertSame(5, count($DB->get_records('block_xp_filters', array('courseid' => $course2->id))));
     }
 
 
     public function test_add_static_filters_to_empty_course() {
         global $DB;
 
-        // Generate course
+        // Generate course.
         $course1 = $this->getDataGenerator()->create_course();
 
-        $this->assertSame(0, count($DB->get_records('block_xp_config', array('courseid'=> $course1->id))));
+        $this->assertSame(0, count($DB->get_records('block_xp_config', array('courseid' => $course1->id))));
 
         $manager1 = block_xp_manager::get($course1->id);
         $manager1->update_config(array('enabled' => true));
@@ -80,12 +78,12 @@ class block_xp_static_filters_testcase extends advanced_testcase {
         // Adding a block should add static filters.
         block_xp_static_filters::add_static_filters_to_course($course1->id);
 
-        $this->assertSame(5, count($DB->get_records('block_xp_filters', array('courseid'=> $course1->id))));
+        $this->assertSame(5, count($DB->get_records('block_xp_filters', array('courseid' => $course1->id))));
 
         // Readding a block should not add filters again.
         block_xp_static_filters::add_static_filters_to_course($course1->id);
 
-        $this->assertSame(5, count($DB->get_records('block_xp_filters', array('courseid'=> $course1->id))));
+        $this->assertSame(5, count($DB->get_records('block_xp_filters', array('courseid' => $course1->id))));
     }
 
 }

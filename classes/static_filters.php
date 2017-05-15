@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-include_once('transaction.php');
+require_once('transaction.php');
 
 /**
  * block_xp_static_filters class
@@ -50,7 +50,7 @@ class block_xp_static_filters {
 
         $records = $DB->get_records('block_xp_config');
         return static::execute_as_transaction(function() use ($records) {
-            foreach($records as $record) {
+            foreach ($records as $record) {
                 static::save_filters(static::get_static_filters(), $record->courseid, true);
             }
         });
@@ -78,9 +78,11 @@ class block_xp_static_filters {
      * @param int $courseid
      * @param string $force force to save rules even if course rules exists.
      */
-    protected static function save_filters($rules, $courseid, $force_save = false) {
-        // check if we should add the rules
-        if (!$force_save && static::course_has_filters($courseid)) return false;
+    protected static function save_filters($rules, $courseid, $forcesave = false) {
+        // Check if we should add the rules.
+        if (!$forcesave && static::course_has_filters($courseid)) {
+            return false;
+        }
 
         $sortorder = static::max_sortorder($courseid) + 1;
 
@@ -180,7 +182,7 @@ class block_xp_static_filters {
                 "_class"   => "block_xp_rule_property",
                 "compare"  => "eq",
                 "value"    => "c",
-                "property" =>"crud"
+                "property" => "crud"
         ];
 
         $filter2 = [
