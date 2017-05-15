@@ -24,8 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . "/blocks/xp/db/upgradelib.php");
-
 /**
  * Block XP class.
  *
