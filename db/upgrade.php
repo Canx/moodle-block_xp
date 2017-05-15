@@ -1,4 +1,6 @@
 <?php
+use block_xp_upgradelib;
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -314,7 +316,7 @@ function xmldb_block_xp_upgrade($oldversion) {
     if ($oldversion < 2017040901) {
 
         // Add static filters to courses.
-        $result = block_xp_static_filters::add_static_filters_to_courses(true);
+        $result = block_xp_upgradelib\static_filters_v1::add_static_filters_to_courses(true);
 
         // Xp savepoint reached.
         upgrade_block_savepoint($result, 2017040901, 'xp');

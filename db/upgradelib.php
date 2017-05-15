@@ -22,15 +22,22 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace block_xp_upgradelib {
+
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * block_xp_upgradelib class
+ * static_filters_v1 used to upgrade to 2017040901
+ *
+ * WARNING! We need to override this class if we make changes in block_static_filters!!!
 *
 * @package    block_xp
 * @copyright  2017 Ruben Cancho
 * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 */
-class block_xp_upgradelib {
+    class static_filters_v1 extends block_xp_static_filters {
+
+    }
+
 
 }

@@ -24,14 +24,21 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+include_once('transaction.php');
+
 /**
  * block_xp_static_filters class
+ *
+ * WARNING!!! Each change in this class could need overriding in upgradelib.php
  *
  * @package    block_xp
  * @copyright  2017 Ruben Cancho
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class block_xp_static_filters {
+    use Transaction;
+
+    const TABLE = "block_xp_filters";
 
     /**
      * Append static filters to current courses.
@@ -42,9 +49,9 @@ class block_xp_static_filters {
         global $DB;
 
         $records = $DB->get_records('block_xp_config');
-        return self::execute_as_transaction(function() use ($records) {
+        return static::execute_as_transaction(function() use ($records) {
             foreach($records as $record) {
-                self::save_filters(self::get_static_filters(), $record->courseid, true);
+                static::save_filters(static::get_static_filters(), $record->courseid, true);
             }
         });
 
@@ -59,33 +66,9 @@ class block_xp_static_filters {
      * @return boolean true if operation succeeded
      */
     public static function add_static_filters_to_course($courseid, $force = false) {
-        return self::execute_as_transaction(function() use ($courseid, $force) {
-            self::save_filters(self::get_static_filters(), $courseid, $force);
+        return static::execute_as_transaction(function() use ($courseid, $force) {
+            static::save_filters(static::get_static_filters(), $courseid, $force);
         });
-    }
-
-    protected static function execute_as_transaction($function) {
-        global $DB;
-
-        try {
-            try {
-                $transaction = $DB->start_delegated_transaction ();
-                $function ();
-                $transaction->allow_commit ();
-            } catch ( Exception $e ) {
-                debugging("Transaction exception, doing rollback:" . $e->getMessage());
-                if (! empty ( $transaction ) && ! $transaction->is_disposed ()) {
-                    $transaction->rollback ( $e );
-                }
-                return false;
-            }
-        } catch ( Exception $e ) {
-            debugging("Rollback Exception:" . $e->getMessage());
-            return false;
-        }
-
-        return true;
-
     }
 
     /**
@@ -97,22 +80,27 @@ class block_xp_static_filters {
      */
     protected static function save_filters($rules, $courseid, $force_save = false) {
         // check if we should add the rules
-        if (!$force_save && self::course_has_filters($courseid)) return false;
+        if (!$force_save && static::course_has_filters($courseid)) return false;
 
-        $sortorder = self::last_sortorder($courseid) + 1;
+        $sortorder = static::max_sortorder($courseid) + 1;
 
         foreach($rules as $rule) {
-            self::save_filter($rule, $sortorder, $courseid);
+            static::save_filter($rule, $sortorder, $courseid);
             $sortorder += 1;
         }
 
         return true;
     }
 
-    protected static function last_sortorder($courseid) {
+    /**
+     * Returns maximum current sortorder in the course.
+     * @param int $courseid
+     * @return number|maximum sortorder
+     */
+    protected static function max_sortorder($courseid) {
         global $DB;
 
-        $sortorder = $DB->get_field_select("block_xp_filters", "MAX(sortorder)",
+        $sortorder = $DB->get_field_select(static::TABLE, "MAX(sortorder)",
                 "courseid = " . $courseid);
 
         return is_null($sortorder) ? 0 : $sortorder;
@@ -127,7 +115,7 @@ class block_xp_static_filters {
     protected static function course_has_filters($courseid) {
         global $DB;
 
-        return ($DB->count_records("block_xp_filters", ['courseid' => $courseid]) > 0);
+        return ($DB->count_records(static::TABLE, ['courseid' => $courseid]) > 0);
     }
 
     /**
@@ -143,7 +131,7 @@ class block_xp_static_filters {
         $filter = $rule;
         $filter['courseid'] = $courseid;
         $filter['sortorder'] = $sortorder;
-        $DB->insert_record("block_xp_filters", $filter);
+        $DB->insert_record(static::TABLE, $filter);
     }
 
     protected static function get_static_filters() {
