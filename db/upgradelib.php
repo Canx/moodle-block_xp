@@ -26,6 +26,8 @@ namespace block_xp_upgradelib {
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot . '/blocks/xp/classes/static_filters.php');
+
 /**
  * static_filters_v1 used to upgrade to 2017040901
  *
