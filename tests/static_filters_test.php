@@ -88,9 +88,4 @@ class block_xp_static_filters_testcase extends advanced_testcase {
         $this->assertSame(5, count($DB->get_records('block_xp_filters', array('courseid'=> $course1->id))));
     }
 
-
-    // TODO: test execute_as_transaction method rollback
-    public function test_rollback() {
-    }
-
 }
