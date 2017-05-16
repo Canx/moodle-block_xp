@@ -43,7 +43,7 @@ class block_xp_static_filters {
     /**
      * Append static filters to current courses.
      *
-     * @return boolean true if operation succeeded
+     * @return boolean true if operation succeeded.
      */
     public static function add_static_filters_to_courses() {
         global $DB;
@@ -58,12 +58,11 @@ class block_xp_static_filters {
     }
 
     /**
-     *
      * Append default filters to a course, by default not adding them if already has filters
      *
      * @param int $courseid
-     * @paran boolean ·$force force to add filters even if course already has filters.
-     * @return boolean true if operation succeeded
+     * @param boolean ·$force force to add filters even if course already has filters.
+     * @return boolean true if operation succeeded.
      */
     public static function add_static_filters_to_course($courseid, $force = false) {
         return static::execute_as_transaction(function() use ($courseid, $force) {
@@ -77,6 +76,7 @@ class block_xp_static_filters {
      * @param hash $rules
      * @param int $courseid
      * @param string $force force to save rules even if course rules exists.
+     * @return bool true if operation succeeded.
      */
     protected static function save_filters($rules, $courseid, $forcesave = false) {
         // Check if we should add the rules.
@@ -96,6 +96,7 @@ class block_xp_static_filters {
 
     /**
      * Returns maximum current sortorder in the course.
+     *
      * @param int $courseid
      * @return number|maximum sortorder
      */
