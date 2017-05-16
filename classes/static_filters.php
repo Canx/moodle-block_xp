@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once('transaction.php');
 
 /**
- * block_xp_static_filters class
+ * block_xp_static_filters class. Model class for static filters (read-only operations).
  *
  * WARNING!!! Each change in this class could need overriding in upgradelib.php
  *
@@ -58,7 +58,7 @@ class block_xp_static_filters {
     }
 
     /**
-     * Append default filters to a course, by default not adding them if already has filters
+     * Append default filters to a course, by default not adding them if already has filters.
      *
      * @param int $courseid
      * @param boolean ·$force force to add filters even if course already has filters.
@@ -124,6 +124,8 @@ class block_xp_static_filters {
     /**
      * Save a filter to a course. A filter is a rule + sort order.
      *
+     * NOTE: this method doesn't belong here...
+     *
      * @param hash $rule
      * @param int $sortorder
      * @param int $courseid
@@ -137,6 +139,11 @@ class block_xp_static_filters {
         $DB->insert_record(static::TABLE, $filter);
     }
 
+    /**
+     * Gets an array of static filters, used to add default filters in courses.
+     *
+     * @return array array of filters.
+     */
     protected static function get_static_filters() {
         $ruledata1 = [
                 "_class" => "block_xp_ruleset",
